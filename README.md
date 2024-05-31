@@ -2,13 +2,13 @@
 This project is proof of concept for commissioning matter devices via expo native modules
 
 ## Basic instructions
+> **NOTE:** Use `yarn install` after cloning repo
 - **Android** `yarn android`
-For android native development open `./android` dir with android studio (*in Android view*) but edit only `matter-api` project unless you know what you are doing
+
+    > For android native development open `./android` dir with android studio (*in Android view*) but edit only `matter-api` project unless you know what you are doing
 
 - **IOS** `yarn ios`
-
-> Use `yarn install` after cloning repo
-
+    > For iOS native development open `./ios` dir with xCode
 
 ## Resources
 - Expo native module: https://docs.expo.dev/modules/native-module-tutorial/
