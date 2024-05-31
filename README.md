@@ -1,4 +1,4 @@
-# React native prof of concept for matter commissioning
+# React native proof of concept for matter commissioning
 This project is prof of concept for commissioning matter devices via expo native modules
 
 ## Basic instructions
