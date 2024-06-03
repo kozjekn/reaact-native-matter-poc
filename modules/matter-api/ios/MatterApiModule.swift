@@ -10,9 +10,9 @@ public class MatterApiModule: Module {
     // The module will be accessible from `requireNativeModule('MatterApi')` in JavaScript.
     Name("MatterApi")
 
-    View(MatterViewModule.self) {}
+    View(MatterView.self) {}
   }
 }
 
 
-class MyModuleView: ExpoView {}
+class MatterView: ExpoView {}
