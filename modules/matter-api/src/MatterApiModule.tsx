@@ -4,7 +4,7 @@ import * as React from 'react';
 
 export type Props = ViewProps;
 
-const NativeView: React.ComponentType<Props> = requireNativeViewManager('MatterView');
+const NativeView: React.ComponentType<Props> = requireNativeViewManager('MatterApi');
 
 export default function ExpoWebView(props: Props) {
   return <NativeView {...props} />;

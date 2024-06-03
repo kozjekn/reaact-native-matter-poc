@@ -1,9 +1,9 @@
 {
   "platforms": ["ios", "tvos", "android", "web"],
   "ios": {
-    "modules": ["MatterApiModule", "MatterViewModule"]
+    "modules": ["MatterApiModule"]
   },
   "android": {
-    "modules": ["expo.modules.matterapi.MatterApiModule", "expo.modules.matterapi.MatterViewModule"]
+    "modules": ["expo.modules.matterapi.MatterApiModule"]
   }
 }

@@ -1,43 +1,67 @@
 package expo.modules.matterapi
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.app.Instrumentation
-import android.app.Service
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.gms.common.moduleinstall.ModuleInstall
-import com.google.android.gms.home.matter.commissioning.CommissioningCompleteMetadata
-import com.google.android.gms.home.matter.commissioning.CommissioningRequestMetadata
-import com.google.android.gms.home.matter.commissioning.CommissioningService
-import com.google.android.gms.tflite.java.TfLite
-import expo.modules.kotlin.exception.Exceptions
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import com.google.android.gms.home.matter.Matter
+import com.google.android.gms.home.matter.commissioning.CommissioningRequest
+import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.views.ExpoView
 import timber.log.Timber
 
+
 class MatterApiModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
   override fun definition() = ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('MatterApi')` in JavaScript.
     Name("MatterApi")
 
-   Function("getAvailable") {
-       val moduleInstallClient = ModuleInstall.getClient(appContext.reactContext!!)
-       val optionalModuleApi = TfLite.getClient(appContext.reactContext!!)
-       val resultCall = moduleInstallClient
-           .areModulesAvailable(optionalModuleApi)
-
-       while(!resultCall.isComplete){
-            Thread.sleep(100)
-       }
-
-      return@Function "system-android Avl: " + resultCall.result.areModulesAvailable()
-    }
+    View(MatterView::class) {}
   }
 }
 
+
+class MatterView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
+    @RequiresApi(Build.VERSION_CODES.O_MR1)
+    private fun commissionDevice() {
+        val request: CommissioningRequest = CommissioningRequest.builder().build()
+        Matter.getCommissioningClient(appContext.currentActivity!!)
+            .commissionDevice(request)
+            .addOnSuccessListener { result ->
+                val mToast = Toast.makeText(context,"success", Toast.LENGTH_SHORT)
+                mToast.show()
+                appContext.currentActivity!!.startIntentSenderForResult(result, 1000, null, 0,0,0)
+            }
+            .addOnFailureListener { error ->
+                val mToast = Toast.makeText(context,"fail", Toast.LENGTH_SHORT)
+                mToast.show()
+            }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O_MR1)
+    internal val webView = LinearLayout(context).also { it ->
+        it.addView(Button(context).also { but ->
+            but.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            but.text = "launch commissioning"
+            but.setOnClickListener() {
+                commissionDevice()
+             }
+        })
+        addView(it)
+    }
+}

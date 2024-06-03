@@ -1,7 +1,5 @@
 import MatterApiModule from './src/MatterApiModule';
 
-export { default as MatterView, Props as MatterViewProps } from './src/MatterViewModule';
+export { default as MatterView, Props as MatterViewProps } from './src/MatterApiModule';
 
-export function getAvailable(): string {
-  return MatterApiModule.getAvailable();
-}
+
