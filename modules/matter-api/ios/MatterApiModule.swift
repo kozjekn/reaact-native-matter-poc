@@ -1,4 +1,5 @@
 import ExpoModulesCore
+import WebKit
 
 public class MatterApiModule: Module {
   // Each module class must implement the definition function. The definition consists of components
@@ -15,4 +16,20 @@ public class MatterApiModule: Module {
 }
 
 
-class MatterView: ExpoView {}
+class MatterView: ExpoView {
+  let webView = WKWebView()
+
+  required init(appContext: AppContext? = nil) {
+    super.init(appContext: appContext)
+    clipsToBounds = true
+    addSubview(webView)
+
+    let url =  URL(string:"https://docs.expo.dev/modules/")!
+    let urlRequest = URLRequest(url:url)
+    webView.load(urlRequest)
+  }
+
+  override func layoutSubviews() {
+    webView.frame = bounds
+  }
+}
