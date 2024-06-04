@@ -16,3 +16,6 @@ This project is proof of concept for commissioning matter devices via expo nativ
 - Add home SDK to project: https://developers.home.google.com/matter/apis/home
 - Instructions for using native android matter lib: https://developers.home.google.com/codelabs/matter-sample-app
 - Base page for google home SDK: https://developers.home.google.com/mobile-sdk
+### iOS
+- Add matter support: https://developer.apple.com/documentation/mattersupport/adding-matter-support-to-your-ecosystem
+- Implement commissioning: https://developer.apple.com/documentation/matter/onboarding_a_matter_device
